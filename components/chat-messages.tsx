@@ -15,12 +15,7 @@ type GroupedMessage = {
 }
 
 interface CollapsibleMessageProps {
-  message: {
-    id: string
-    role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool'
-    content: React.ReactNode[]
-    isCollapsed?: StreamableValue<boolean>
-  }
+  message: Pick<AIMessage, 'id' | 'role' | 'content' | 'isCollapsed'>
   isLastMessage: boolean
 }
 
@@ -82,7 +77,7 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
             id: groupedMessage.id,
             role: 'assistant',
             content: groupedMessage.components,
-            isCollapsed: groupedMessage.isCollapsed
+            isCollapsed: groupedMessage.isCollapsed 
           }}
           isLastMessage={groupedMessage.id === messages[messages.length - 1].id}
         />
