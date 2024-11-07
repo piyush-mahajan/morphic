@@ -11,7 +11,35 @@ interface ChatMessagesProps {
 type GroupedMessage = {
   id: string
   components: React.ReactNode[]
-  isCollapsed?: StreamableValue<boolean> | undefined
+  isCollapsed?: StreamableValue<boolean>
+}
+
+interface CollapsibleMessageProps {
+  message: {
+    id: string
+    role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool'
+    content: React.ReactNode[]
+    isCollapsed?: StreamableValue<boolean>
+  }
+  isLastMessage: boolean
+}
+
+export type AIMessage = {
+  role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool'
+  content: string | React.ReactNode[]
+  id: string
+  name?: string
+  isCollapsed?: StreamableValue<boolean>
+  type?:
+    | 'answer'
+    | 'related'
+    | 'skip'
+    | 'inquiry'
+    | 'input'
+    | 'input_related'
+    | 'tool'
+    | 'followup'
+    | 'end'
 }
 
 export function ChatMessages({ messages }: ChatMessagesProps) {
@@ -52,9 +80,8 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
           key={`${groupedMessage.id}`}
           message={{
             id: groupedMessage.id,
-            component: groupedMessage.components.map((component, i) => (
-              <div key={`${groupedMessage.id}-${i}`}>{component}</div>
-            )),
+            role: 'assistant',
+            content: groupedMessage.components,
             isCollapsed: groupedMessage.isCollapsed
           }}
           isLastMessage={groupedMessage.id === messages[messages.length - 1].id}

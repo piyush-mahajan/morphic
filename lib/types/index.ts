@@ -1,3 +1,5 @@
+import { StreamableValue } from 'ai/rsc'
+
 export type SearchResults = {
   images: SearchResultImage[]
   results: SearchResultItem[]
@@ -67,9 +69,10 @@ export interface Chat extends Record<string, any> {
 
 export type AIMessage = {
   role: 'user' | 'assistant' | 'system' | 'function' | 'data' | 'tool'
-  content: string
+  content: string | React.ReactNode[]
   id: string
   name?: string
+  isCollapsed?: StreamableValue<boolean>
   type?:
     | 'answer'
     | 'related'
